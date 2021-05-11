@@ -5,7 +5,6 @@ var playerMoney = 10;
 
 var enemyNames = ["Roborto", "Amy Android", "Robo Trumble"];
 console.log(enemyNames);
-var enemyHealth = 50;
 var enemyAttack = 12;
 
 var fight = function (enemyName) {
@@ -29,9 +28,9 @@ var fight = function (enemyName) {
         break;
       }
     }
-
+    var damage = randomNumber(playerAttack - 3, playerAttack);
     // remove enemy's health by subtracting the amount set in the playerAttack variable
-    enemyHealth = enemyHealth - playerAttack;
+    enemyHealth = Math.max(0, enemyHealth - damage);
     console.log(
       playerName +
         " attacked " +
@@ -56,8 +55,9 @@ var fight = function (enemyName) {
       window.alert(enemyName + " still has " + enemyHealth + " health left.");
     }
 
+    damage = randomNumber(playerAttack - 3, playerAttack);
     // remove players's health by subtracting the amount set in the enemyAttack variable
-    playerHealth = playerHealth - enemyAttack;
+    playerHealth = Math.max(0, playerHealth - damage);
     console.log(
       enemyName +
         " attacked " +
@@ -91,7 +91,7 @@ var shop = function () {
         window.alert("Refilling player's health by 20 for 7 dollars.");
 
         playerHealth = playerHealth + 20;
-        playerMoney = playerMoney - 7;
+        playerMoney = Math.max(0, playerMoney - 10);
       } else {
         window.alert("You don't have enough money!");
       }
@@ -103,7 +103,7 @@ var shop = function () {
         window.alert("Upgrading player's attack by 6 for 7 dollars.");
 
         playerAttack = playerAttack + 6;
-        playerMoney = playerMoney - 7;
+        playerMoney = Math.max(0, playerMoney - 10);
       } else {
         window.alert("You don't have enough money!");
       }
@@ -131,7 +131,7 @@ var startGame = function () {
 
       var pickedEnemyName = enemyNames[i];
 
-      enemyHealth = 50;
+      enemyHealth = randomNumber(40, 60);
 
       fight(pickedEnemyName);
       if (playerHealth > 0 && i < enemyNames.length - 1) {
@@ -172,4 +172,10 @@ var endGame = function () {
   }
 };
 
+// function to generate a random numeric value
+var randomNumber = function (min, max) {
+  var value = Math.floor(Math.random() * (max - min + 1)) + min;
+
+  return value;
+};
 startGame();
